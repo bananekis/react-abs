@@ -22,7 +22,7 @@ export const DivRow = styled.div`
 
   @media (max-width: 900px) {
     flex-direction: column;
-    width: 80%;
+    width: 95%;
     margin: 0 auto;
     text-align: center;
   }

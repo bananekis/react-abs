@@ -139,7 +139,11 @@ export const Button = styled.button`
 `;
 
 export const Form = styled.form`
-  width: 80%;
+  width: 30%;
+
+  @media (max-width: 900px) {
+    width: 80%;
+  }
 `;
 
 // types

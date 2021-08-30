@@ -9,7 +9,13 @@ import { BiMenu } from "react-icons/bi";
 import { BlogApp } from "./blog/BlogApp";
 import { CounterApp } from "./redux-counter/CounterApp";
 import { HackerApp } from "./hacker-typer/HackerApp";
-import { Link, Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import {
+  Link,
+  NavLink,
+  Route,
+  BrowserRouter as Router,
+  Switch,
+} from "react-router-dom";
 import { MemoryApp } from "./memory/MemoryApp";
 import { NorrisApp } from "./chucknorris/NorrisApp";
 import { TikTokApp } from "./tik-tok/TikTokApp";
@@ -59,8 +65,12 @@ const H1 = styled.h1`
   text-align: center;
 `;
 
-const A = styled(Link)`
+const A = styled(NavLink)`
   color: ${theme.white};
+
+  &.selected {
+    color: yellow;
+  }
 `;
 
 const InputCheckbox = styled.input`
@@ -99,31 +109,49 @@ export default function App() {
         <Nav>
           <Ul>
             <Li>
-              <A to="/">Home</A>
+              <A activeClassName="selected" to="/" exact>
+                Home
+              </A>
             </Li>
             <Li>
-              <A to="/counter">Counter</A>
+              <A activeClassName="selected" to="/counter">
+                Counter
+              </A>
             </Li>
             <Li>
-              <A to="/todoapp">TodoApp</A>
+              <A activeClassName="selected" to="/todoapp">
+                TodoApp
+              </A>
             </Li>
             <Li>
-              <A to="/hacker-typer">Hacker-typer</A>
+              <A activeClassName="selected" to="/hacker-typer">
+                Hacker-typer
+              </A>
             </Li>
             <Li>
-              <A to="/tik-tok">Tik-Tok</A>
+              <A activeClassName="selected" to="/tik-tok">
+                Tik-Tok
+              </A>
             </Li>
             <Li>
-              <A to="/memory">Memory Game</A>
+              <A activeClassName="selected" to="/memory">
+                Memory Game
+              </A>
             </Li>
             <Li>
-              <A to="/blog">Blog</A>
+              <A activeClassName="selected" to="/blog">
+                Blog
+              </A>
             </Li>
             <Li>
-              <A to="/chucknorris">Chuck Norris</A>
+              <A activeClassName="selected" to="/chucknorris">
+                Chuck Norris
+              </A>
             </Li>
             <Li>
-              <A to="/counter-redux">Counter-redux</A>
+              <A activeClassName="selected" to="/counter-redux">
+                Counter-redux
+              </A>
             </Li>
           </Ul>
         </Nav>
