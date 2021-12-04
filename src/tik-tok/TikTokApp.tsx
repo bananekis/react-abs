@@ -19,7 +19,7 @@ const Divwrapper = styled.div`
 const P = styled.p`
   color: ${theme.white};
   font-size: 22px;
-  width: 31%;
+  width: 33%;
   background: ${theme.darkRed};
   border-radius: 5px;
   padding: 10px;
