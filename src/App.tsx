@@ -100,9 +100,7 @@ const Img = styled.img`
   }
 `;
 
-const PTitle = styled.p`
-  font-family: cursive;
-`;
+const PTitle = styled.p``;
 
 // Component
 

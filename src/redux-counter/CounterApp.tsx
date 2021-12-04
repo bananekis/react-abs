@@ -39,7 +39,6 @@ const Button = styled.button`
   border-radius: 5px;
   background: ${theme.darkRed};
   color: white;
-  font-family: cursive;
 `;
 
 const Pdiv = styled.p`
@@ -47,7 +46,6 @@ const Pdiv = styled.p`
   text-align: left;
   color: white;
   font-size: 18px;
-  font-family: cursive;
   display: flex;
   align-items: center;
 
@@ -61,7 +59,6 @@ const PCounter = styled.p`
   border-radius: 5px;
   padding: 10px;
   font-size: 6em;
-  font-family: cursive;
   color: white;
   margin: 1em auto 0.5em auto;
   word-break: break-all;

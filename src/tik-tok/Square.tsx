@@ -9,7 +9,6 @@ const PButton = styled.p`
   display: flex;
   margin: 0;
   justify-content: center;
-  font-family: cursive;
 
   @media (max-width: 420px) {
     line-height: 0;
