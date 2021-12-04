@@ -14,7 +14,8 @@ import ReactMarkdown from "react-markdown";
 
 export const DetailArticles = () => {
   const context = useContext(MainContext);
-  let uniqueIndex = getUniqueIndex();
+  let uniqueIndex = +getUniqueIndex();
+
   return (
     <DivAllAWrapper>
       <DivCard>

@@ -2,6 +2,7 @@
 import { Playground } from "./Playground";
 import { theme } from "./theme";
 import React, { useState } from "react";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import styled from "styled-components";
 
 // styles
@@ -11,11 +12,25 @@ const Divwrapper = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  max-width: 900px;
+  margin: 0 auto;
 `;
 
 const P = styled.p`
   color: ${theme.white};
   font-size: 22px;
+  width: 31%;
+  background: ${theme.darkRed};
+  border-radius: 5px;
+  padding: 10px;
+
+  @media (max-width: 768px) {
+    width: 45%;
+  }
+
+  @media (max-width: 420px) {
+    font-size: 13px;
+  }
 `;
 
 export const Button = styled.button`
@@ -24,15 +39,24 @@ export const Button = styled.button`
   padding: 15px;
   font-weight: 500;
   font-size: 20px;
-  width: 50px;
-  height: 50px;
+  width: 3.5em;
+  height: 3.5em;
 
   @media (max-width: 900px) {
-    width: 25px;
-    height: 25px;
+    width: 3em;
+    height: 3em;
     display: flex;
     justify-content: center;
-    line-height: 0;
+    line-height: 1;
+  }
+
+  @media (max-width: 420px) {
+    width: 1em;
+    height: 1em;
+  }
+
+  @media (max-width: 420px) {
+    padding: 13px;
   }
 `;
 
@@ -43,11 +67,24 @@ export const ButtonRestart = styled.button`
   border: 1px solid yellow;
   color: ${theme.white};
   cursor: pointer;
+  margin-bottom: 3em;
 `;
 
 const DivPlayground = styled.div`
   @media (max-width: 900px) {
     margin-bottom: 3em;
+  }
+`;
+
+const DivInfo = styled.div`
+  display: flex;
+  margin: 3em 0;
+  width: 100%;
+  align-items: center;
+  justify-content: space-around;
+
+  @media (max-width: 420px) {
+    margin: 10em auto 2em auto;
   }
 `;
 
@@ -113,12 +150,17 @@ export function TikTokApp() {
 
   return (
     <Divwrapper>
-      <ButtonRestart onClick={handleRestartGame}>Restart Game</ButtonRestart>
-      {calculateWinner(playground.squares) ? (
-        <P>Player {calculateWinner(playground.squares)} wins</P>
-      ) : (
-        <P>Next move: Player {playground.signX ? "X" : "O"}</P>
-      )}
+      <DivInfo>
+        {calculateWinner(playground.squares) ? (
+          <P>Player {calculateWinner(playground.squares)} wins</P>
+        ) : (
+          <P>Currently is playing player {playground.signX ? "X" : "O"}</P>
+        )}
+        <RestartAltIcon
+          onClick={handleRestartGame}
+          style={{ color: theme.white, fontSize: "3em", cursor: "pointer" }}
+        />
+      </DivInfo>
       <DivPlayground>
         <MainContext.Provider
           value={{ squares: playground.squares, passClickFunc: handleClick }}

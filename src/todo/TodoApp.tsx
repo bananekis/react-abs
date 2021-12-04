@@ -3,21 +3,32 @@ import { AllTodos } from "./AllTodos";
 import { CompletedTodos } from "./CompletedTodos";
 import { Component } from "react";
 import { Length } from "./SeeLength";
-import { Link, Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import {
+  NavLink,
+  Route,
+  BrowserRouter as Router,
+  Switch,
+} from "react-router-dom";
 import { theme } from "./theme";
+import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import styled from "styled-components";
 
 // styles
 
 const InputText = styled.input`
-  border: none;
-  background: transparent;
-  border-bottom: 1px solid yellow;
+  border: 1px solid ${theme.red};
+  border-radius: 5px;
+  background: ${theme.darkRed};
   outline: none;
-  color: ${theme.yellow};
+  color: ${theme.white};
   text-align: center;
-  width: 500px;
-  font-size: 25px;
+  width: 100%;
+  font-size: 1.4em;
+  padding: 0.3em;
+
+  &::placeholder {
+    color: #ffffffb9;
+  }
 
   @media (max-width: 900px) {
     width: 100% !important;
@@ -30,10 +41,16 @@ const Divwrapper = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  max-width: 900px;
+  margin: 5em auto 0 auto;
 
   @media (max-width: 900px) {
     width: 80%;
     margin: 2em auto;
+  }
+
+  @media (max-width: 420px) {
+    margin: 10em auto 2em auto;
   }
 `;
 
@@ -42,8 +59,18 @@ const Li = styled.li`
   display: flex;
 `;
 
-const A = styled(Link)`
+const A = styled(NavLink)`
   color: ${theme.white};
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    color: ${theme.lightRed};
+  }
+
+  &.selected {
+    color: ${theme.lightRed};
+  }
 `;
 
 const Ul = styled.ul`
@@ -59,13 +86,31 @@ const Ul = styled.ul`
   @media (max-width: 900px) {
     font-size: 16px;
   }
+
+  @media (max-width: 420px) {
+    align-items: center;
+    text-align: center;
+  }
+
+  @media (max-width: 320px) {
+    font-size: 11px;
+  }
 `;
 
 const Nav = styled.nav`
-  background-color: ${theme.darkYellow};
-  padding: 5px;
+  background-color: ${theme.darkRed};
+  padding: 10px 50px;
   font-size: 20px;
+  border-radius: 5px;
+  margin-bottom: 1em;
 `;
+
+const DivInputWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+`;
+
 // types
 
 export type Todo = {
@@ -99,9 +144,12 @@ export class TodoApp extends Component<Props, State> {
   // add TODO
 
   handleKeyDown = (event: any) => {
-    if (event.key === "Enter" && event.target.value !== "") {
+    if (
+      (event.key === "Enter" && event.target.value !== "") ||
+      event.type === "click"
+    ) {
       const newTodo = {
-        text: event.target.value,
+        text: this.state.value,
         id: Math.random() * 1000,
         checked: false,
       };
@@ -156,70 +204,81 @@ export class TodoApp extends Component<Props, State> {
 
   render() {
     return (
-      <>
-        <Divwrapper>
+      <Divwrapper>
+        <DivInputWrapper>
           <InputText
             type="text"
             name="name"
             value={this.state.value}
             onChange={(e) => this.setState({ value: e.target.value })}
             onKeyDown={this.handleKeyDown}
+            placeholder={"add new task..."}
             autoFocus
           />
+          <PlaylistAddIcon
+            style={{ color: "white", fontSize: "3em", cursor: "pointer" }}
+            onClick={this.handleKeyDown}
+          />
+        </DivInputWrapper>
+        <Router>
+          <Switch>
+            <Route path="/todoapp">
+              <AllTodos
+                getAllTodos={this.state.all_todos}
+                removeTodo={this.removeTodo}
+                addToCompleted={this.addToCompleted}
+                changeEditMode={this.changeEditMode}
+                changeTodo={this.changeTodo}
+                keyId={this.state.key}
+              />
+            </Route>
+            <Route path="/completed">
+              <CompletedTodos
+                getCompletedTodos={this.state.all_todos.filter(
+                  (item) => item.checked === true
+                )}
+                removeAllAndCompleted={this.removeTodo}
+                keyId={this.state.key}
+                changeEditMode={this.changeEditMode}
+                changeTodo={this.changeTodo}
+              />
+            </Route>
+            <Route path="/active">
+              <ActiveTodos
+                getActiveTodos={this.state.all_todos.filter(
+                  (item) => item.checked !== true
+                )}
+                removeTodo={this.removeTodo}
+                keyId={this.state.key}
+                changeEditMode={this.changeEditMode}
+                changeTodo={this.changeTodo}
+                addToCompleted={this.addToCompleted}
+              />
+            </Route>
+          </Switch>
 
-          <Router>
-            <Switch>
-              <Route path="/todoapp">
-                <AllTodos
-                  getAllTodos={this.state.all_todos}
-                  removeTodo={this.removeTodo}
-                  addToCompleted={this.addToCompleted}
-                  changeEditMode={this.changeEditMode}
-                  changeTodo={this.changeTodo}
-                  keyId={this.state.key}
-                />
-              </Route>
-              <Route path="/completed">
-                <CompletedTodos
-                  getCompletedTodos={this.state.all_todos.filter(
-                    (item) => item.checked === true
-                  )}
-                  removeAllAndCompleted={this.removeTodo}
-                  keyId={this.state.key}
-                  changeEditMode={this.changeEditMode}
-                  changeTodo={this.changeTodo}
-                />
-              </Route>
-              <Route path="/active">
-                <ActiveTodos
-                  getActiveTodos={this.state.all_todos.filter(
-                    (item) => item.checked !== true
-                  )}
-                  removeTodo={this.removeTodo}
-                  keyId={this.state.key}
-                  changeEditMode={this.changeEditMode}
-                  changeTodo={this.changeTodo}
-                />
-              </Route>
-            </Switch>
-
-            <Nav>
-              <Ul>
-                <Length length={this.state.all_todos.length} />
-                <Li>
-                  <A to="/todoapp">All</A>
-                </Li>
-                <Li>
-                  <A to="/active">Active</A>
-                </Li>
-                <Li>
-                  <A to="/completed">Completed</A>
-                </Li>
-              </Ul>
-            </Nav>
-          </Router>
-        </Divwrapper>
-      </>
+          <Nav>
+            <Ul>
+              <Length length={this.state.all_todos.length} />
+              <Li>
+                <A to="/todoapp" activeClassName="selected">
+                  All Tasks
+                </A>
+              </Li>
+              <Li>
+                <A to="/active" activeClassName="selected">
+                  Active Tasks
+                </A>
+              </Li>
+              <Li>
+                <A to="/completed" activeClassName="selected">
+                  Completed Tasks
+                </A>
+              </Li>
+            </Ul>
+          </Nav>
+        </Router>
+      </Divwrapper>
     );
   }
 }

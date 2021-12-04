@@ -1,9 +1,10 @@
 import { AvailCategories } from "./AvailCategories";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { hashCode } from "./hashCode";
 import { theme } from "./theme";
 import { urls } from "./urlConfig";
 import { useEffect, useState } from "react";
+import chuckNorris from "./chuck-norris.png";
 import loadingGif from "./loading.gif";
 import styled from "styled-components";
 
@@ -14,12 +15,17 @@ export const Divwrapper = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 1000px;
+  max-width: 1940px;
   margin: 0 auto;
   text-align: center;
+  margin-top: 2em;
 
   @media (max-width: 900px) {
     width: 80%;
+  }
+
+  @media (max-width: 420px) {
+    margin: 10em auto 2em auto;
   }
 `;
 
@@ -36,8 +42,9 @@ export const DivLoading = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 33px;
-  height: 40vh;
+  height: 20vh;
+  width: 100%;
+  margin: 4em auto 0 auto;
 `;
 
 export const P = styled.p`
@@ -48,17 +55,25 @@ export const P = styled.p`
 `;
 
 export const P_info = styled.p`
-  color: ${theme.yellow};
+  color: ${theme.white};
   font-size: 22px;
   font-weight: 500;
+  background-color: ${theme.darkRed};
+  padding: 15px;
+  border-radius: 5px;
 `;
 
 export const Img = styled.img`
-  /* mix-blend-mode: multiply; */
+  width: 8%;
+  mix-blend-mode: darken;
+  cursor: pointer;
+
+  @media (max-width: 420px) {
+    width: 31%;
+  }
 `;
 
 export const Nav = styled.nav`
-  background-color: ${theme.yellow};
   font-size: 20px;
   margin: 0 auto;
   width: 100%;
@@ -71,7 +86,11 @@ export const Li = styled.li`
 `;
 
 export const A = styled(Link)`
-  color: ${theme.black};
+  color: ${theme.white};
+  text-decoration: none;
+  background: #7c0707;
+  padding: 10px;
+  border-radius: 5px;
 `;
 
 export const Ul = styled.ul`
@@ -83,9 +102,43 @@ export const Ul = styled.ul`
   flex-wrap: wrap;
   justify-content: center;
 
-  ${Li}:not(:last-child) {
-    margin-right: 1em;
+  @media (max-width: 420px) {
+    justify-content: flex-start;
   }
+`;
+
+const DivTitle = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row-reverse;
+`;
+
+export const DivCard = styled.div`
+  width: 20%;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 5px;
+  font-weight: bold;
+  color: ${theme.brown};
+  justify-content: center;
+  margin: 0.5em;
+
+  @media (max-width: 768px) {
+    width: 40%;
+  }
+
+  @media (max-width: 420px) {
+    width: 90%;
+  }
+`;
+
+export const DivCardWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 `;
 
 // constants
@@ -100,6 +153,9 @@ export const NorrisApp: React.FC = () => {
   const [allJokes, setAllJokes] = useState(new Map<number, string>());
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isShowAll, setIsShowAll] = useState(true);
+
+  const history = useHistory();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -165,12 +221,25 @@ export const NorrisApp: React.FC = () => {
 
   return (
     <Divwrapper>
-      <P_info>20 random jokes</P_info>
-      {[...allJokes.entries()].map(([hash, data]) => {
-        return <P key={hash}>{data}</P>;
-      })}
-      <P_info>Choose 1 category to display 5 jokes below</P_info>
-      <AvailCategories />
+      <DivTitle>
+        <Img
+          src={chuckNorris}
+          alt="norris"
+          onClick={() => {
+            setIsShowAll(true);
+            history.push("/chucknorris");
+          }}
+        />
+        <P_info>I generated 20 random jokes for you </P_info>
+      </DivTitle>
+      <AvailCategories isShowAll={isShowAll} setIsShowAll={setIsShowAll} />
+      {isShowAll && (
+        <DivCardWrapper>
+          {[...allJokes.entries()].map(([hash, data]) => {
+            return <DivCard key={hash}>{data}</DivCard>;
+          })}
+        </DivCardWrapper>
+      )}
     </Divwrapper>
   );
 };

@@ -1,8 +1,11 @@
 import { Todo } from "./TodoApp";
+import { red } from "@material-ui/core/colors";
 import { theme } from "./theme";
 import { withStyles } from "@material-ui/core/styles";
-import { yellow } from "@material-ui/core/colors";
+import CancelIcon from "@mui/icons-material/Cancel";
+import CheckIcon from "@mui/icons-material/Check";
 import Checkbox, { CheckboxProps } from "@material-ui/core/Checkbox";
+import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import styled from "styled-components";
 
 // styles
@@ -10,20 +13,21 @@ import styled from "styled-components";
 export const Ul = styled.ul`
   list-style: none;
   padding: 0;
+  margin: 0;
 `;
 
 export const Divwrapper = styled.div`
-  width: 300px;
+  width: 100%;
   text-align: center;
   font-size: 25px;
-
+  margin-bottom: 1em;
   @media (max-width: 900px) {
     width: 100%;
   }
 `;
 
 export const Button = styled.button`
-  color: ${theme.yellow};
+  color: ${theme.white};
   background: transparent;
   border: none;
   display: block;
@@ -35,6 +39,10 @@ export const Button = styled.button`
 export const DivItem = styled.div`
   display: flex;
   overflow-wrap: anywhere;
+  background: ${theme.darkRed};
+  border-radius: 5px;
+  border: 1px solid ${theme.red};
+  width: 100%;
   /* &:hover ${Button} {
     display: inline-block;
   } */
@@ -52,23 +60,30 @@ export const InputCheckBox = styled.input`
 `;
 
 export const Li = styled.li`
-  margin-bottom: 0.6em;
-  height: 40px;
+  /* height: 40px; */
 `;
 
-export const Label = styled.label<{ primary?: boolean }>`
+export const Label = styled.label`
   width: 100%;
   text-align: left;
-  color: ${(props) => (props.primary ? theme.white : theme.yellow)};
+  color: ${theme.white};
+`;
+
+export const PNotFound = styled.p`
+  margin: 0.5em 0;
+  font-size: 0.6em;
+  color: ${theme.white};
+  text-align: center;
+  width: 100%;
 `;
 
 // custom-checkbox
 
 export const YellowCheckbox = withStyles({
   root: {
-    color: yellow[400],
+    color: red[400],
     "&$checked": {
-      color: yellow[600],
+      color: red[400],
     },
   },
   checked: {},
@@ -91,39 +106,72 @@ export const AllTodos = (props: Props) => {
   return (
     <Divwrapper onClick={() => props.changeEditMode(0)}>
       <Ul>
-        {props.getAllTodos.map((t) => (
-          <Li key={t.id}>
-            <DivItem>
-              <YellowCheckbox
-                onChange={(e) => {
-                  props.addToCompleted(e.target.checked, t);
-                }}
-                checked={t.checked}
-              />
-              {props.keyId === t.id ? (
-                <InputText
-                  type="text"
-                  value={t.text}
-                  onClick={(e) => e.stopPropagation()}
-                  onChange={(e) =>
-                    props.changeTodo(e.currentTarget.value, t.id)
-                  }
+        {props.getAllTodos.length > 0 ? (
+          props.getAllTodos.map((t) => (
+            <Li key={t.id}>
+              <div style={{ display: "flex", alignItems: "baseline" }}>
+                <DivItem>
+                  <YellowCheckbox
+                    onChange={(e) => {
+                      props.addToCompleted(e.target.checked, t);
+                    }}
+                    checked={t.checked}
+                  />
+                  {props.keyId === t.id ? (
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <InputText
+                        type="text"
+                        value={t.text}
+                        onClick={(e) => e.stopPropagation()}
+                        onChange={(e) =>
+                          props.changeTodo(e.currentTarget.value, t.id)
+                        }
+                      />
+                      <CheckIcon
+                        style={{ cursor: "pointer", color: theme.white }}
+                        onClick={() => props.changeEditMode(0)}
+                      />
+                    </div>
+                  ) : (
+                    <Label onDoubleClick={() => props.changeEditMode(t.id)}>
+                      {t.text}
+                    </Label>
+                  )}
+                </DivItem>
+                <CancelIcon
+                  onClick={() => {
+                    props.removeTodo(t);
+                  }}
+                  style={{
+                    fontSize: "2em",
+                    width: "48px",
+                    height: "27px",
+                    color: theme.white,
+                    cursor: "pointer",
+                  }}
                 />
-              ) : (
-                <Label primary onDoubleClick={() => props.changeEditMode(t.id)}>
-                  {t.text}
-                </Label>
-              )}
-              <Button
-                onClick={() => {
-                  props.removeTodo(t);
+              </div>
+            </Li>
+          ))
+        ) : (
+          <Li>
+            <div
+              style={{ display: "flex", alignItems: "center", height: "44px" }}
+            >
+              <DivItem>
+                <PNotFound>no tasks found</PNotFound>
+              </DivItem>
+              <SentimentVeryDissatisfiedIcon
+                style={{
+                  fontSize: "2em",
+                  width: "48px",
+                  height: "27px",
+                  color: theme.white,
                 }}
-              >
-                X
-              </Button>
-            </DivItem>
+              />
+            </div>
           </Li>
-        ))}
+        )}
       </Ul>
     </Divwrapper>
   );

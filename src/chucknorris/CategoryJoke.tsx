@@ -1,9 +1,10 @@
 import {
   CATEGORY_JOKES_NUMBER,
+  DivCard,
+  DivCardWrapper,
   DivLoading,
   Diverror,
   Img,
-  P,
   P_info,
 } from "./NorrisApp";
 import { urls } from "./urlConfig";
@@ -11,7 +12,11 @@ import { useCategoryUrlName } from "./GetCategoryName";
 import React, { useEffect, useState } from "react";
 import loadingGif from "./loading.gif";
 
-export const CategoryJoke: React.FC = () => {
+type Props = {
+  isShowAll: boolean;
+};
+
+export const CategoryJoke: React.FC<Props> = ({ isShowAll }: Props) => {
   const [categoryJokes, setCategoryJokes] = useState(new Set<string>());
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -70,13 +75,19 @@ export const CategoryJoke: React.FC = () => {
 
   return (
     <>
-      <P_info>
-        You chose to display 5 {currentCategory} jokes and {categoryJokes.size}{" "}
-        unique {currentCategory} joke(s) rendered.
-      </P_info>
-      {[...categoryJokes.entries()].map(([hash, data]) => {
-        return <P key={hash}>{data}</P>;
-      })}
+      {!isShowAll && (
+        <>
+          <P_info>
+            You chose to display 5 {currentCategory} jokes and{" "}
+            {categoryJokes.size} unique {currentCategory} joke(s) rendered.
+          </P_info>
+          <DivCardWrapper>
+            {[...categoryJokes.entries()].map(([hash, data]) => {
+              return <DivCard key={hash}>{data}</DivCard>;
+            })}
+          </DivCardWrapper>
+        </>
+      )}
     </>
   );
 };

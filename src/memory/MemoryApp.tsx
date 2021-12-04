@@ -3,6 +3,7 @@ import { deleteUnmatchedPairs } from "./deletePairs";
 import { shuffle } from "./shuffleArray";
 import { theme } from "./theme";
 import { useEffect, useState } from "react";
+import CheckIcon from "@mui/icons-material/Check";
 import styled from "styled-components";
 
 // styles
@@ -22,11 +23,17 @@ const DivMain = styled.div`
 
 const DivMatched = styled.div`
   text-align: center;
-  font-size: 16px;
-  color: yellow;
-  width: 200px;
+  font-size: 1.5em;
+  color: ${theme.white};
+  background: ${theme.darkRed};
+  border-radius: 5px;
   margin: 1.5em auto;
   padding: 5px;
+  width: 30%;
+
+  @media (max-width: 420px) {
+    width: 77%;
+  }
 `;
 
 const DivFront = styled.div`
@@ -42,21 +49,26 @@ const DivFront = styled.div`
 
 const DivCard = styled.div`
   position: relative;
-  width: 20%;
-  height: 20%;
+  width: 22%;
+  height: 36%;
   cursor: pointer;
   transform-style: preserve-3d;
   transition: transform 1s;
   border: 0.5px solid ${theme.white};
+  border-radius: 5px;
 
   margin: 0.5em;
+
+  @media (max-width: 420px) {
+    height: 16%;
+  }
 `;
 
 const DivBack = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
-  background: ${theme.black};
+  background: ${theme.darkRed};
   backface-visibility: hidden;
   transform: rotateY(180deg);
 `;
@@ -64,6 +76,15 @@ const DivBack = styled.div`
 const Img = styled.img`
   width: 100%;
   height: 100%;
+`;
+
+const DivWrapper = styled.div`
+  max-width: 900px;
+  margin: 5em auto 0 auto;
+
+  @media (max-width: 420px) {
+    margin: 10em auto 2em auto;
+  }
 `;
 
 // constants --------------------------------------------------
@@ -121,11 +142,11 @@ export function MemoryApp() {
   }, [pairs]);
 
   return (
-    <>
+    <DivWrapper>
       <DivMatched>
         {matched.counter === WIN_VALUE
           ? "You guessed 'em all!"
-          : `Number of matched pairs: ${matched.counter}`}
+          : `Matched pairs: ${matched.counter}`}
       </DivMatched>
       <DivMain>
         {playground.map((item, index) => {
@@ -147,6 +168,6 @@ export function MemoryApp() {
           );
         })}
       </DivMain>
-    </>
+    </DivWrapper>
   );
 }

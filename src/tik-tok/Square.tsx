@@ -1,5 +1,21 @@
 import { Button, MainContext } from "./TikTokApp";
 import { useContext } from "react";
+import styled from "styled-components";
+
+// styles
+
+const PButton = styled.p`
+  font-size: 1.5em;
+  display: flex;
+  margin: 0;
+  justify-content: center;
+  font-family: cursive;
+
+  @media (max-width: 420px) {
+    line-height: 0;
+    font-size: 0.8em;
+  }
+`;
 
 // types
 
@@ -12,7 +28,7 @@ export const Square = (props: Props) => {
 
   return (
     <Button onClick={() => context.passClickFunc(props.index)}>
-      {context.squares[props.index]}
+      <PButton>{context.squares[props.index]}</PButton>
     </Button>
   );
 };

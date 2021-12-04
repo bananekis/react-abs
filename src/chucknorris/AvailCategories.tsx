@@ -5,9 +5,17 @@ import { urls } from "./urlConfig";
 import { useEffect, useState } from "react";
 import loadingGif from "./loading.gif";
 
+type Props = {
+  setIsShowAll: React.Dispatch<React.SetStateAction<boolean>>;
+  isShowAll: boolean;
+};
+
 // component
 
-export const AvailCategories: React.FC = () => {
+export const AvailCategories: React.FC<Props> = ({
+  setIsShowAll,
+  isShowAll,
+}: Props) => {
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -53,7 +61,12 @@ export const AvailCategories: React.FC = () => {
           {categories.map((item) => {
             return (
               <Li key={item}>
-                <A to={`/chucknorris/${item}`}>{item}</A>
+                <A
+                  to={`/chucknorris/${item}`}
+                  onClick={() => setIsShowAll(false)}
+                >
+                  {item}
+                </A>
               </Li>
             );
           })}
@@ -61,7 +74,7 @@ export const AvailCategories: React.FC = () => {
       </Nav>
       <Switch>
         <Route path="/chucknorris/:id">
-          <CategoryJoke />
+          <CategoryJoke isShowAll={isShowAll} />
         </Route>
       </Switch>
     </Router>

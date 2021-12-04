@@ -3,17 +3,24 @@ import { RootState } from "..";
 import { decrement, diversify, increment, power, square } from "./actions";
 import { theme } from "./theme";
 import { useDispatch, useSelector } from "react-redux";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import styled from "styled-components";
 
 // styles
 
 const Div = styled.div`
   text-align: center;
-  width: 400px;
+  max-width: 900px;
   margin: 0 auto;
+
+  @media (max-width: 768px) {
+    width: 73%;
+    margin: 0 auto;
+  }
 
   @media (max-width: 420px) {
     width: 80%;
+    margin: 10em auto 2em auto;
   }
 `;
 
@@ -29,13 +36,35 @@ const Button = styled.button`
   width: 25%;
   font-size: 16px;
   border: none;
+  border-radius: 5px;
+  background: ${theme.darkRed};
+  color: white;
+  font-family: cursive;
 `;
 
 const Pdiv = styled.p`
   width: 75%;
   text-align: left;
-  color: ${theme.yellow};
+  color: white;
   font-size: 18px;
+  font-family: cursive;
+  display: flex;
+  align-items: center;
+
+  @media (max-width: 420px) {
+    font-size: 11px;
+  }
+`;
+
+const PCounter = styled.p`
+  background: ${theme.darkRed};
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 6em;
+  font-family: cursive;
+  color: white;
+  margin: 1em auto 0.5em auto;
+  word-break: break-all;
 `;
 
 const selectCounter = (state: RootState): number => state.counter.count;
@@ -48,38 +77,54 @@ export const CounterApp = () => {
 
   return error === null ? (
     <Div>
-      <P>Counter {counter}</P>
+      <PCounter>{counter}</PCounter>
       <DivFlex>
-        <Pdiv>Increment by one</Pdiv>
-        <Button onClick={() => dispatch(increment(1))}>add 1</Button>
+        <Pdiv>
+          Increment by one <ArrowForwardIcon />
+        </Pdiv>
+        <Button onClick={() => dispatch(increment(1))}>click me!</Button>
       </DivFlex>
       <DivFlex>
-        <Pdiv>Increment by two</Pdiv>
-        <Button onClick={() => dispatch(increment(2))}>add 2</Button>
+        <Pdiv>
+          Increment by two <ArrowForwardIcon />
+        </Pdiv>
+        <Button onClick={() => dispatch(increment(2))}>click me!</Button>
       </DivFlex>
       <DivFlex>
-        <Pdiv>Decrement by one</Pdiv>
-        <Button onClick={() => dispatch(decrement(1))}>sub 1</Button>
+        <Pdiv>
+          Decrement by one <ArrowForwardIcon />
+        </Pdiv>
+        <Button onClick={() => dispatch(decrement(1))}>click me!</Button>
       </DivFlex>
       <DivFlex>
-        <Pdiv>Decrement by two</Pdiv>
-        <Button onClick={() => dispatch(decrement(2))}>sub 2</Button>
+        <Pdiv>
+          Decrement by two <ArrowForwardIcon />
+        </Pdiv>
+        <Button onClick={() => dispatch(decrement(2))}>click me!</Button>
       </DivFlex>
       <DivFlex>
-        <Pdiv>Divide by two</Pdiv>
-        <Button onClick={() => dispatch(diversify(2))}>div 2</Button>
+        <Pdiv>
+          Divide by two <ArrowForwardIcon />
+        </Pdiv>
+        <Button onClick={() => dispatch(diversify(2))}>click me!</Button>
       </DivFlex>
       <DivFlex>
-        <Pdiv>Power by two</Pdiv>
-        <Button onClick={() => dispatch(power(2))}>pow 2</Button>
+        <Pdiv>
+          Power by two <ArrowForwardIcon />
+        </Pdiv>
+        <Button onClick={() => dispatch(power(2))}>click me!</Button>
       </DivFlex>
       <DivFlex>
-        <Pdiv>Power by current state counter</Pdiv>
-        <Button onClick={() => dispatch(power(counter))}>pow counter</Button>
+        <Pdiv>
+          Power by current state counter <ArrowForwardIcon />
+        </Pdiv>
+        <Button onClick={() => dispatch(power(counter))}>click me!</Button>
       </DivFlex>
       <DivFlex>
-        <Pdiv>Square by two</Pdiv>
-        <Button onClick={() => dispatch(square(2))}>sqrt</Button>
+        <Pdiv>
+          Square by two <ArrowForwardIcon />
+        </Pdiv>
+        <Button onClick={() => dispatch(square(2))}>click me!</Button>
       </DivFlex>
     </Div>
   ) : (

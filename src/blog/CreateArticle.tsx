@@ -7,7 +7,32 @@ import {
   MainContext,
   Textarea,
 } from "./BlogApp";
+import { theme } from "./theme";
 import { useContext } from "react";
+import CheckIcon from "@mui/icons-material/Check";
+import styled from "styled-components";
+
+//styles
+
+const Label = styled.label`
+  font-size: 1.2em;
+  margin-bottom: 0.5em;
+`;
+
+const DivButton = styled.div`
+  margin: 0px auto;
+  width: 30%;
+  justify-content: center;
+  text-align: center;
+  margin-top: 3em;
+`;
+
+const P = styled.p`
+  margin: 0;
+  display: flex;
+  width: 100%;
+`;
+
 // component
 
 export const CreateArticle = () => {
@@ -17,14 +42,14 @@ export const CreateArticle = () => {
     <Div>
       <Form onSubmit={context.handleSubmit}>
         <DivForm>
-          <label>URL slug input:</label>
+          <Label>URL slug input:</Label>
           <Input
             type="text"
             onChange={context.urlOnChange}
             value={context.urlValue}
             required
           />
-          <label>Header input:</label>
+          <Label>Header input:</Label>
           <Input
             type="text"
             onChange={context.headerOnChange}
@@ -33,7 +58,7 @@ export const CreateArticle = () => {
           />
         </DivForm>
         <DivForm>
-          <label>What do you have in mind?...</label>
+          <Label>What do you have in mind?...</Label>
           <Textarea
             onChange={context.textareaOnChange}
             value={context.textareaValue}
@@ -41,9 +66,12 @@ export const CreateArticle = () => {
             required
           ></Textarea>
         </DivForm>
-        <DivForm style={{ width: "100px", margin: "0 auto" }}>
-          <Button type="submit">Save</Button>
-        </DivForm>
+        <DivButton>
+          <Button type="submit">
+            <P>Save</P>
+            <CheckIcon />
+          </Button>
+        </DivButton>
       </Form>
     </Div>
   );

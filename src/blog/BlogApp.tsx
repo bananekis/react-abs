@@ -10,16 +10,18 @@ import {
 } from "react-router-dom";
 import { theme } from "./theme";
 import { useLocalStorage } from "./LocalStorage";
-import React, { useContext, useEffect, useState } from "react";
+import AddIcon from "@mui/icons-material/Add";
+import CheckIcon from "@mui/icons-material/Check";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 
 // styles
 
 const Nav = styled.nav`
-  background-color: ${theme.yellow};
   padding: 5px;
   font-size: 20px;
-  margin: 0 auto;
+  margin: 5em auto 2em auto;
+  max-width: 900px;
 
   @media (max-width: 900px) {
     font-size: 16px;
@@ -27,17 +29,30 @@ const Nav = styled.nav`
 
   @media (max-width: 420px) {
     font-size: 11px;
-    margin-bottom: 3em;
+    margin: 15em auto 2em auto;
   }
 `;
 
 const Li = styled.li`
   list-style: none;
   display: flex;
+  background: ${theme.darkRed};
+  padding: 8px 30px;
+  border-radius: 5px;
+  width: 25%;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row-reverse;
 `;
 
-const A = styled(Link)`
-  color: ${theme.black};
+export const A = styled(Link)`
+  color: ${theme.white};
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: inherit;
+  flex-direction: inherit;
 `;
 
 const Ul = styled.ul`
@@ -62,6 +77,10 @@ export const Div = styled.div`
   margin-top: 2em;
   text-align: center;
   font-size: 17px;
+
+  @media (max-width: 420px) {
+    margin-bottom: 3em;
+  }
 `;
 
 export const DivAllAWrapper = styled.div`
@@ -73,7 +92,7 @@ export const DivAllAWrapper = styled.div`
   height: 100%;
   margin: 3em auto 0 auto;
 
-  @media (max-width: 900px) {
+  @media (max-width: 1024px) {
     width: 100%;
   }
 `;
@@ -84,13 +103,19 @@ export const DivCard = styled.div`
   display: flex;
   width: 20%;
   height: 20%;
-  border: 3px solid ${theme.darkyellow};
-  background-color: ${theme.yellow};
+  border-radius: 5px;
+  padding: 10px;
+  color: ${theme.white};
+  background-color: ${theme.darkRed};
   margin: 0 3em 3em 3em;
   flex-direction: column;
 
-  @media (max-width: 900px) {
-    width: 100%;
+  @media (max-width: 1024px) {
+    width: 37%;
+  }
+
+  @media (max-width: 768px) {
+    width: 60%;
   }
 `;
 
@@ -102,17 +127,22 @@ export const DivForm = styled.div`
 `;
 
 export const Input = styled.input`
-  padding: 5px;
+  padding: 7px;
   margin-bottom: 1em;
   outline: none;
   text-align: center;
   font-size: 16px;
+  border-radius: 5px;
+  border: none;
 `;
 
 export const Textarea = styled.textarea`
-  height: 200px;
+  height: 20em;
   font-size: 17px;
   outline: none;
+  border-radius: 5px;
+  outline: none;
+  border: none;
 `;
 
 export const P = styled.p`
@@ -136,10 +166,25 @@ export const H5 = styled.h5`
 export const Button = styled.button`
   font-size: 15px;
   height: 38px;
+  width: 100%;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  background: ${theme.darkRed};
+  color: white;
+  padding: 10px;
+  cursor: pointer;
 `;
 
 export const Form = styled.form`
   width: 30%;
+
+  @media (max-width: 1024px) {
+    width: 56%;
+  }
 
   @media (max-width: 900px) {
     width: 80%;
@@ -238,29 +283,28 @@ export const BlogApp = () => {
         <Nav>
           <Ul>
             <Li>
-              <A to="/blog/article-all">All articles</A>
+              <A to="/blog/article-all">
+                <CheckIcon style={{ color: "white", fontSize: "2em" }} />
+                All articles
+              </A>
             </Li>
             <Li>
-              <A to="/blog/article-create">Create article</A>
+              <A to="/blog/article-create">
+                <AddIcon style={{ color: "white", fontSize: "2em" }} />
+                Create article
+              </A>
             </Li>
-            {articles.url.map((item: string, index: number) => {
-              return (
-                <Li key={index}>
-                  <A to={`/blog/${item}`}>specific: {item}</A>
-                </Li>
-              );
-            })}
           </Ul>
         </Nav>
         <Switch>
           <Route path="/blog/article-all">
-            <AllArticles />;
+            <AllArticles />
           </Route>
           <Route path="/blog/article-create">
-            <CreateArticle />;
+            <CreateArticle />
           </Route>
           <Route path="/blog/:id">
-            <DetailArticles />;
+            <DetailArticles />
           </Route>
         </Switch>
       </Router>
@@ -271,11 +315,6 @@ export const BlogApp = () => {
 
 export const getUniqueIndex = () => {
   const location = useLocation();
-  const context = useContext(MainContext);
 
-  let uniqueURLIndex = context.articles.url.indexOf(
-    location.pathname.split("/")[2]
-  );
-
-  return uniqueURLIndex;
+  return location.pathname.split("/")[3];
 };

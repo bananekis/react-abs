@@ -4,6 +4,7 @@ import {
   counterReducer,
 } from "./redux-counter/reducer/counterReducer";
 import { Provider } from "react-redux";
+import { BrowserRouter as Router } from "react-router-dom";
 import { combineReducers, createStore } from "redux";
 import App from "./App";
 import React from "react";
@@ -23,7 +24,9 @@ const store = createStore(allReducers);
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <Router>
+        <App />
+      </Router>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

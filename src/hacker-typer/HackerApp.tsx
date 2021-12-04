@@ -6,13 +6,13 @@ import styled from "styled-components";
 // styles
 
 const TextArea = styled.textarea`
-  width: 95%;
+  width: 100%;
   color: greenyellow;
   background-color: black;
   outline: none;
   border: none;
   font-size: 10px;
-  height: 60vh;
+  height: 100%;
   resize: none;
   overflow: scroll;
   font-size: 16px;
@@ -29,7 +29,7 @@ const TextArea = styled.textarea`
 const Divwrapper = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 1em;
+  height: 100vh;
 `;
 
 // types
